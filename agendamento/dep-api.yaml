@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-api
+  labels:
+    app: dep-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dep-api
+  template:
+    metadata:
+      labels:
+        app: dep-api
+    spec:
+      containers:
+      - name: dep-api-container
+        image: 308294614673.dkr.ecr.us-east-1.amazonaws.com/health-med:latest
+        resources:
+          requests:
+            cpu: "1"
+            memory: "256Mi"
+          limits:
+            cpu: "2"
+            memory: "512Mi"
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MARIADB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets-api
+              key: MARIADB_HOST
+              optional: false
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets-api
+              key: MARIADB_USER
+              optional: false
+        - name: MARIADB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets-api
+              key: MARIADB_PASS
+              optional: false
+        - name: MARIADB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets-api
+              key: MARIADB_DATABASE
+              optional: false
+        - name: MARIADB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets-api
+              key: MARIADB_PORT
+              optional: false
+        - name: DEBUG
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets-api
+              key: DEBUG
+              optional: false
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          failureThreshold: 3
+          periodSeconds: 10
+
+
