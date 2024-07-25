@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: dep-api-container
-        image: 308294614673.dkr.ecr.us-east-1.amazonaws.com/health-med:latest
+        image: 010438464780.dkr.ecr.us-east-1.amazonaws.com/health-med:latest
         resources:
           requests:
             cpu: "1"
