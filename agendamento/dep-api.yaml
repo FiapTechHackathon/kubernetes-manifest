@@ -19,11 +19,7 @@ spec:
         image: 010438464780.dkr.ecr.us-east-1.amazonaws.com/health-med:latest
         resources:
           requests:
-            cpu: "500m"
-            memory: "256Mi"
-          limits:
-            cpu: "1"
-            memory: "512Mi"
+            cpu: "250m"
         ports:
         - containerPort: 3000
         env:
